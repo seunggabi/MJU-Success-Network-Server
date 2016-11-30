@@ -521,6 +521,19 @@
 /* end log */
 
 /* start schedule */
+	function getSchedule($s_id, $u_id) {
+		$table = "schedule";
+		$proj = "*";
+		
+		$data = array(
+			's_id' => $s_id
+			, 's_id' => $u_id
+		);
+
+		$order = "";
+		return select($table, $proj, $data, $order)[0];
+	}
+
 	function insertSchedule($token, $g_id, $s_name, $s_content, $s_datetime, $s_gps_logitude, $s_gps_latitude, $s_gps_location, $s_gps_name) {
 		$table = "schedule";
 		$user = getUser($token);
@@ -538,10 +551,29 @@
 				, 's_gps_location' => $s_gps_location
 				, 's_gps_name' => $s_gps_name
 			);
-			insertLog($token, $g_id, "[".$s_name."]약속 생성");
+			insertLog($token, $g_id, "[".$user['u_name']."]님이 [".$s_name."]약속을 생성하셨습니다.");
 			return insert($table, $data);
 		}
 	}
+
+	function deleteSchedule($token, $s_id) {
+		$user = getUser($token);
+
+		$table = "schedule";
+		$proj = "s_id";
+		$user = getUser($token);
+		$schedule = getSchedule($s_id, $u_id);
+		$u_id = $user['u_id'];
+		$data = array(
+			'u_id' => $u_id
+			, 's_id' => $s_id
+		);
+		
+		insertLog($token, $g_id, "[".$user['u_name']."]님이 [".$schedule['s_name']."]약속 삭제하셨습니다.");
+		closeGroup($token, $g_id);
+		return delete($table, $data);
+	}
+
 /* end schedule */
 
 ?>

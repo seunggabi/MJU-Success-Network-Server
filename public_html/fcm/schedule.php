@@ -6,6 +6,10 @@
 		forbidden($_POST, 9);
 		echo insertSchedule($token, $g_id, $s_name, $s_content, $s_datetime, $s_gps_logitude, $s_gps_latitude, $s_gps_location, $s_gps_name);
 	}
+	else if($_GET['mode'] == "delete") {
+		forbidden($_POST, 9);
+		echo insertSchedule($token, $g_id, $s_name, $s_content, $s_datetime, $s_gps_logitude, $s_gps_latitude, $s_gps_location, $s_gps_name);
+	}
 	
 	closeDB();
 ?>
