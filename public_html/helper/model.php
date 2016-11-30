@@ -520,4 +520,28 @@
 	}
 /* end log */
 
+/* start schedule */
+	function insertSchedule($token, $g_id, $s_name, $s_content, $s_datetime, $s_gps_logitude, $s_gps_latitude, $s_gps_location, $s_gps_name) {
+		$table = "schedule";
+		$user = getUser($token);
+		$u_id = $user['u_id'];
+		
+		$check = isJoin($token, $g_id)['check'];
+		if($check) {
+			$data = array(
+				'g_id' => $g_id
+				, 's_name' => $s_name
+				, 's_content' => $s_content
+				, 's_datetime' => $s_datetime
+				, 's_gps_logitude' => $s_gps_logitude
+				, 's_gps_latitude' => $s_gps_latitude
+				, 's_gps_location' => $s_gps_location
+				, 's_gps_name' => $s_gps_name
+			);
+			insertLog($token, $g_id, "[".$s_name."]약속 생성");
+			return insert($table, $data);
+		}
+	}
+/* end schedule */
+
 ?>
