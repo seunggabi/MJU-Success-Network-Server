@@ -1,0 +1,139 @@
+CREATE TABLE `user` (
+	u_id INT(11) NOT NULL AUTO_INCREMENT
+	, u_email VARCHAR(255)
+	, u_password VARCHAR(255)
+	, u_name VARCHAR(255)
+	, u_phone VARCHAR(255)
+	, u_intro TEXT
+	, u_level INT(11)
+	, u_alarm CHAR(1) DEFAULT 'Y'
+	, token VARCHAR(200) NOT NULL
+	, d_id INT(11)
+	, p_id INT(11)
+
+	, PRIMARY KEY(u_id)
+	, UNIQUE KEY(u_email)
+	, UNIQUE KEY(token)
+);
+
+CREATE TABLE `dept` (
+	d_id INT(11) NOT NULL AUTO_INCREMENT
+	, d_name VARCHAR(255) NOT NULL
+
+	, PRIMARY KEY(d_id)
+);
+
+CREATE TABLE `pos` ( 
+	p_id int(11) NOT NULL AUTO_INCREMENT
+	, p_name VARCHAR(255) NOT NULL
+
+	, PRIMARY KEY(p_id)
+);
+
+CREATE TABLE `group` (
+	g_id INT(11) NOT NULL AUTO_INCREMENT
+	, g_name VARCHAR(255)
+	, g_tag TEXT
+	, g_intro TEXT
+	, g_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	, g_status CHAR(1) DEFAULT 'Y'
+	, g_hidden CHAR(1) DEFAULT 'N'
+	, u_id INT(11)
+
+	, PRIMARY KEY(g_id)
+); 
+
+CREATE TABLE `join` (
+	j_id INT(11) NOT NULL AUTO_INCREMENT
+	, j_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	, g_id INT(11) NOT NULL
+	, u_id INT(11) NOT NULL
+	, j_status CHAR(1) DEFAULT 'Y'
+	, j_alarm CHAR(1) DEFAULT 'Y'
+
+	, PRIMARY KEY(j_id)
+	, UNIQUE KEY(g_id, u_id)
+);
+
+CREATE TABLE `log` (
+	l_id INT(11) NOT NULL AUTO_INCREMENT
+	, l_content TEXT NOT NULL
+	, l_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	, g_id INT(11) NOT NULL
+	, u_id INT(11) NOT NULL
+
+	, PRIMARY KEY(l_id)
+	, UNIQUE KEY(g_id, u_id, l_time)
+);
+
+CREATE TABLE `file` (
+	f_id INT(11) NOT NULL AUTO_INCREMENT
+	, f_name VARCHAR(255) NOT NULL
+	, f_name_hash VARCHAR(255) NOT NULL
+	, f_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	, g_id INT(11) NOT NULL
+	, u_id INT(11) NOT NULL
+
+	, PRIMARY KEY(f_id)
+	, UNIQUE(g_id, u_id, f_time)
+);
+
+CREATE TABLE `schedule` (
+	s_id INT(11) NOT NULL AUTO_INCREMENT
+	, s_name VARCHAR(255) NOT NULL
+	, s_intro TEXT  NOT NULL
+	, s_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	, s_datetime DATETIME NOT NULL
+	, s_gps_logitude FLOAT (10, 6) NOT NULL
+	, s_gps_latitude FLOAT (10, 6) NOT NULL
+	, s_gps_location VARCHAR(255) NOT NULL
+	, s_gps_name VARCHAR(255) NOT NULL
+	, g_id INT(11) NOT NULL
+	, u_id INT(11) NOT NULL
+	
+	, PRIMARY KEY (s_id)
+	, UNIQUE(g_id, u_id, s_time)
+);
+
+CREATE TABLE `attend` (
+	a_id INT(11) NOT NULL AUTO_INCREMENT
+	, a_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	, s_id INT(11) NOT NULL
+	, u_id INT(11) NOT NULL
+
+	, PRIMARY KEY (a_id)
+	, UNIQUE(s_id, u_id, a_time)
+);
+
+CREATE TABLE `notice` (
+	n_id INT(11) NOT NULL AUTO_INCREMENT
+	, n_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	, n_content TEXT
+	, m_id INT(11) NOT NULL
+
+	, PRIMARY KEY (n_id)
+	, UNIQUE(m_id, n_time)
+);
+
+CREATE TABLE `manager` (
+	m_id int(11) NOT NULL AUTO_INCREMENT
+	, m_ip varchar(255) DEFAULT NULL
+	, m_name varchar(255) DEFAULT NULL
+	, m_comment text
+	, m_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+
+	, PRIMARY KEY (m_id)
+);
+
+INSERT INTO `dept` VALUES (1,'경력개발팀');
+INSERT INTO `dept` VALUES (2,'컴퓨터공학과');
+INSERT INTO `dept` VALUES (3,'정보통신공학과');
+INSERT INTO `dept` VALUES (4,'기타');
+
+INSERT INTO `pos` VALUES (1,'1학년');
+INSERT INTO `pos` VALUES (2,'2학년');
+INSERT INTO `pos` VALUES (3,'3학년');
+INSERT INTO `pos` VALUES (4,'4학년');
+INSERT INTO `pos` VALUES (5,'멘토');
+INSERT INTO `pos` VALUES (6,'교수');
+INSERT INTO `pos` VALUES (7,'경력개발팀');

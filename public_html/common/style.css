@@ -1,0 +1,16 @@
+body {
+	font-family:나눔고딕;
+	text-align:center;
+}
+
+.blue {
+	color:blue;
+}
+
+#noticeMakerHeader {
+	font-weight:bold;
+}
+
+#noticeMakerHeader, #noticeMakerBody {
+	margin-top:30px;
+}
