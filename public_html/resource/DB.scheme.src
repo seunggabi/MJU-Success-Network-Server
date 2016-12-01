@@ -5,11 +5,11 @@ CREATE TABLE `user` (
 	, u_name VARCHAR(255)
 	, u_phone VARCHAR(255)
 	, u_intro TEXT
-	, u_level INT(11)
+	, u_level INT(11) DEFAULT 0
 	, u_alarm CHAR(1) DEFAULT 'Y'
 	, token VARCHAR(200) NOT NULL
-	, d_id INT(11)
-	, p_id INT(11)
+	, d_id INT(11) DEFAULT 0
+	, p_id INT(11) DEFAULT 0
 
 	, PRIMARY KEY(u_id)
 	, UNIQUE KEY(u_email)
@@ -102,7 +102,7 @@ CREATE TABLE `attend` (
 	, u_id INT(11) NOT NULL
 
 	, PRIMARY KEY (a_id)
-	, UNIQUE(s_id, u_id, a_time)
+	, UNIQUE(s_id, u_id)
 );
 
 CREATE TABLE `notice` (
@@ -123,6 +123,7 @@ CREATE TABLE `manager` (
 	, m_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 
 	, PRIMARY KEY (m_id)
+	, UNIQUE(m_ip)
 );
 
 INSERT INTO `dept` VALUES (1,'경력개발팀');
@@ -137,3 +138,5 @@ INSERT INTO `pos` VALUES (4,'4학년');
 INSERT INTO `pos` VALUES (5,'멘토');
 INSERT INTO `pos` VALUES (6,'교수');
 INSERT INTO `pos` VALUES (7,'경력개발팀');
+
+INSERT INTO `manager` (m_ip, m_name, m_comment) VALUES ('::1','개발자','김승갑');

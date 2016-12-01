@@ -497,6 +497,22 @@
 		if(isGroup($token, $g_id))
 			return insert($table, $data);
 	}
+
+	function getAttendList($token, $s_id) {
+		global $mysqli;
+		$user = getUser($token);
+		$u_id = $user['u_id'];
+		
+		$sql = "SELECT u.u_id, u_name, a.a_id, a.s_id, a.a_time FROM `user` u JOIN `attend` a ON u.u_id = a.u_id WHERE a.s_id = '$s_id' ORDER BY a.a_id ASC";
+		$rows = array();
+		$result = $mysqli->query($sql);
+		if(@$result->num_rows > 0) {
+			while ($row = $result->fetch_assoc()) {
+				array_push($rows, $row);
+			}
+		}
+		return $rows;
+	}
 /* end attend */
 
 /* start log */
@@ -507,7 +523,7 @@
 		
 		$check = isJoin($token, $g_id)['check'];
 		if($check) {
-			$sql = "SELECT u.u_id, u_name, l.l_id, l_time, l_content FROM `user` u JOIN `log` l ON u.u_id = l.u_id WHERE l.g_id = '$g_id'";
+			$sql = "SELECT u.u_id, u_name, l.l_id, l_time, l_content FROM `user` u JOIN `log` l ON u.u_id = l.u_id WHERE l.g_id = '$g_id' ORDER BY l.l_id ASC";
 			$rows = array();
 			$result = $mysqli->query($sql);
 			if(@$result->num_rows > 0) {
@@ -587,7 +603,20 @@
 		insertLog($token, $schedule['g_id'], "[".$user['u_name']."]님이 [".$schedule['s_name']."]약속을 삭제하셨습니다.");
 		return delete($table, $data);
 	}
-
+	
+	function isSchedule($token, $s_id) {
+		$table = "schedule";
+		$proj = "s_id";
+		$user = getUser($token);
+		$u_id = $user['u_id'];
+		$data = array(
+			'u_id' => $u_id
+			, 's_id' => $s_id
+		);
+		
+		$order = "";
+		return $check = array('check' => count(select($table, $proj, $data, $order)));
+	}
 /* end schedule */
 
 ?>
