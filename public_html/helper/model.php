@@ -546,7 +546,7 @@
 				'g_id' => $g_id
 			);
 
-			$order = "";
+			$order = "s_id DESC";
 			return select($table, $proj, $data, $order);
 		}
 	}
@@ -560,6 +560,7 @@
 			$table = "schedule";
 			$data = array(
 				'g_id' => $g_id
+				, 'u_id' => $u_id
 				, 's_name' => $s_name
 				, 's_content' => $s_content
 				, 's_datetime' => $s_datetime
@@ -577,14 +578,13 @@
 		$user = getUser($token);
 		$u_id = $user['u_id'];
 		$table = "schedule";
-		$proj = "s_id";
 		$schedule = getSchedule($s_id, $u_id);
 		$data = array(
 			's_id' => $s_id
 			, 'u_id' => $u_id
 		);
 		
-		insertLog($token, $g_id, "[".$user['u_name']."]님이 [".$schedule['s_name']."]약속을 삭제하셨습니다.");
+		insertLog($token, $schedule['g_id'], "[".$user['u_name']."]님이 [".$schedule['s_name']."]약속을 삭제하셨습니다.");
 		return delete($table, $data);
 	}
 
