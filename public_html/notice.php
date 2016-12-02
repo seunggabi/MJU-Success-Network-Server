@@ -16,19 +16,23 @@
 	}
 
 	if(isset($_POST['content'])) {
-		$tokens = getUserList(null);
+		$users = getUserList(null);
 		$content = $_POST['content'];
 
 		if ($content == "") {
 			$content = "새글이 등록되었습니다.";
 		}
 		insertNotice($manager['m_id'], $content);
-		$data = array(
-			'message' => $content
-			, 'type' => "notice"
-			, 'name' => $manager['m_name']
-		);
-		sendMessage($tokens, $data);
+		foreach($users as $user) {
+			$data = array(
+				'message' => $content
+				, 'type' => "notice"
+				, 'name' => $manager['m_name']
+				, 'j_alarm' => "Y"
+				, 'u_alarm' => $user['u_alarm']
+			);
+			sendMessage($user['token'], $data);
+		}
 	}
 ?>
 

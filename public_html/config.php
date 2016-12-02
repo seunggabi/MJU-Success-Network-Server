@@ -10,8 +10,8 @@
 
 	$mysqli = new mysqli($DB_SERVER, $DB_ID, $DB_PASS, $DB_NAME);
 
-	require_once $PATH."/helper/function.php";
 	require_once $PATH."/helper/model.php";
+	require_once $PATH."/helper/function.php";
 
 	header('Content-Type: text/html; charset=UTF-8');
 ?>

@@ -12,6 +12,11 @@
 		}
 	}
 
+	function toggleYN($bool) {
+		$bool = $bool == "Y" ? "N" : "Y";
+		return $bool;
+	}
+
 	function insertLog($token, $g_id, $content) {
 		global $mysqli;
 
